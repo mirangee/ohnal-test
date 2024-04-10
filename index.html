@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+
+    <!-- reset -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+
+    <!-- fontawesome css: https://fontawesome.com -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+
+    <!-- https://linearicons.com/free#cdn -->
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+
+    <!-- bootstrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/assets/css/list.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" defer></script>
+
+
+    <!-- side menu event js -->
+    <script src="/assets/js/side-menu.js" defer></script>
+    <!-- weather search event js -->
+    <script src="/assets/js/weather-search.js" defer></script>
+
+
+
+</head>
+
+<body>
+
+    <!-- header -->
+    <header>
+        <div class="inner-header">
+            <h1 class="logo">
+                <a href="#">
+                    <img src="/assets/img/navbar-logo.svg" alt="로고이미지">
+                </a>
+            </h1>
+
+            <!-- 프로필 사진 -->
+            <div class="profile-box">
+                <!-- <c:if test="${login == null || login.profile == null}">
+                    <img src="/assets/img/anonymous.jpg" alt="프사">
+                </c:if>
+
+                <c:if test="${login != null && login.profile != null}">
+                    <img src="/display${login.profile}" alt="profile picture">
+                </c:if> -->
+            </div>
+
+
+            <h2 class="intro-text">
+                <!-- 안녕하세요! ${sessionScope.login == null? '': login.name}님 -->
+                <!-- session 객체의 login 데이터를 꺼내달라는 의미. scope를 쓰지 않으면 자동으로 model 객체, session 객체를 뒤져서 찾아온다.-->
+            </h2>
+            <a href="#" class="menu-open">
+                <span class="lnr lnr-menu"></span>
+            </a>
+        </div>
+
+        <nav class="gnb">
+            <a href="#" class="close">
+                <span class="lnr lnr-cross"></span>
+            </a>
+            <ul>
+                <li><a href="/">OOTD 게시판</a></li>
+
+                <c:if test="${empty login}">
+                    <!-- el 문법임. login이 null이라면 ${login == null}-->
+                    <li><a href="/members/sign-up">Sign Up</a></li>
+                    <li><a href="/members/sign-in">Sign In</a></li>
+                </c:if>
+
+                <c:if test="${not empty login}">
+                    <li><a href="#">My Page</a></li>
+                    <li><a href="/members/sign-out">Sign Out</a></li>
+                </c:if>
+
+            </ul>
+        </nav>
+
+    </header>
+    <!-- //header -->
+
+
+    <div id="wrap">
+        <div class="top-section">
+            <div class="left-section">
+                <div class="left-top">
+                    <img class="weather-icon" src="./assets/img/test1.png" alt="weather">
+                </div>
+                <div class="left-down">
+                    <h2>오늘 서울시 마포구의 기온은</h2>
+                    <h2>최저 10도, 최고 20도입니다</h2>
+                </div>
+            </div>
+            <div class="right-section">
+                <div class="right-top">
+                    <h2>오늘의 패션 예보</h2>
+                </div>
+                <div class="right-down">
+                    <img src="./assets/img/cody.png" alt="test">
+                </div>
+            </div>
+        </div>
+
+        <!-- 검색창 영역 -->
+        <div class="search-section">
+            <h2 class="main-title">WEATHER SEARCH</h2>
+
+            <form action="#">
+                <select name="h_area1" onChange="cat1_change(this.value,h_area2)" class="h_area1">
+                    <option>&nbsp 시, 도를 선택하세요</option>
+                    <option value='1'>&nbsp서울특별시</option>
+                    <option value='2'>&nbsp부산광역시</option>
+                    <option value='3'>&nbsp대구광역시</option>
+                    <option value='4'>&nbsp인천광역시</option>
+                    <option value='5'>&nbsp광주광역시</option>
+                    <option value='6'>&nbsp대전광역시</option>
+                    <option value='7'>&nbsp울산광역시</option>
+                    <option value='8'>&nbsp강원특별자치도</option>
+                    <option value='9'>&nbsp경기도</option>
+                    <option value='10'>&nbsp경상남도</option>
+                    <option value='11'>&nbsp경상북도</option>
+                    <option value='12'>&nbsp전라남도</option>
+                    <option value='13'>&nbsp전라북도</option>
+                    <option value='14'>&nbsp제주특별자치도</option>
+                    <option value='15'>&nbsp충청남도</option>
+                    <option value='16'>&nbsp충청북도</option>
+                </select>
+                <select name="h_area2">
+                    <option>&nbsp시,군,구를 선택하세요</option>
+                </select>
+                <button id="sendBtn" class="btn btn-primary" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="board-section">
+            <h2 class="main-title">BEST OOTD</h2>
+            <button class="add-btn">더 보기</button>
+        </div>
+
+
+
+        <!-- BEST OOTD 게시판 영역 -->
+
+        <!-- 카드 복붙 -->
+        <div class="card-container">
+        
+            <div class="card-wrapper">
+                <section class="card" data-bno="${b.boardNo}">
+                    <div class="card-title-wrapper">
+                        <div class="profile-box">
+                            <img src="/assets/img/anonymous.jpg" alt="프사">
+                        </div>
+                        <span class="card-account">test3</span>
+                    </div>
+
+                    <div class="card-picture">
+                        <img src="./assets/img/cody.jpg" alt="sample">
+                    </div>
+
+                    <div class="icon-wrapper">
+                        <div class="like-icon">
+                            <span class="lnr lnr-heart"></span>
+                        </div>
+                        <span class="hashtag">#서울시강남구</span>
+                        <span class="hashtag">#최저12최고25</span>
+                        <div class="reply-icon">
+                            <!-- <span class="lnr lnr-bubble"></span> -->
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="content-wrapper">
+                        <p><span>좋아요 598개</span>&nbsp&nbsp&nbsp<span>댓글 30개</span></p>
+                        <p><span class="card-account">test3</span> 일교차가 클 땐 아우터를 가볍게 걸치는 게 좋아</p>
+                        <a href="#"><p>... 더 보기</p></a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 카드 복붙 -->
+            <div class="card-wrapper">
+                <section class="card" data-bno="${b.boardNo}">
+                    <div class="card-title-wrapper">
+                        <div class="profile-box">
+                            <img src="/assets/img/anonymous.jpg" alt="프사">
+                        </div>
+                        <span class="card-account">test3</span>
+                    </div>
+
+                    <div class="card-picture">
+                        <img src="./assets/img/cody.jpg" alt="sample">
+                    </div>
+
+                    <div class="icon-wrapper">
+                        <div class="like-icon">
+                            <span class="lnr lnr-heart"></span>
+                        </div>
+                        <span class="hashtag">#서울시강남구</span>
+                        <span class="hashtag">#최저12최고25</span>
+                        <div class="reply-icon">
+                            <!-- <span class="lnr lnr-bubble"></span> -->
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="content-wrapper">
+                        <p><span>좋아요 598개</span>&nbsp&nbsp&nbsp<span>댓글 30개</span></p>
+                        <p><span class="card-account">test3</span> 일교차가 클 땐 아우터를 가볍게 걸치는 게 좋아</p>
+                        <a href="#"><p>... 더 보기</p></a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 카드 복붙 -->
+            <div class="card-wrapper">
+                <section class="card" data-bno="${b.boardNo}">
+                    <div class="card-title-wrapper">
+                        <div class="profile-box">
+                            <img src="/assets/img/anonymous.jpg" alt="프사">
+                        </div>
+                        <span class="card-account">test3</span>
+                    </div>
+
+                    <div class="card-picture">
+                        <img src="./assets/img/cody.jpg" alt="sample">
+                    </div>
+
+                    <div class="icon-wrapper">
+                        <div class="like-icon">
+                            <span class="lnr lnr-heart"></span>
+                        </div>
+                        <span class="hashtag">#서울시강남구</span>
+                        <span class="hashtag">#최저12최고25</span>
+                        <div class="reply-icon">
+                            <!-- <span class="lnr lnr-bubble"></span> -->
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="content-wrapper">
+                        <p><span>좋아요 598개</span>&nbsp&nbsp&nbsp<span>댓글 30개</span></p>
+                        <p><span class="card-account">test3</span> 일교차가 클 땐 아우터를 가볍게 걸치는 게 좋아</p>
+                        <a href="#"><p>... 더 보기</p></a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 카드 복붙 -->
+            <div class="card-wrapper">
+                <section class="card" data-bno="${b.boardNo}">
+                    <div class="card-title-wrapper">
+                        <div class="profile-box">
+                            <img src="/assets/img/anonymous.jpg" alt="프사">
+                        </div>
+                        <span class="card-account">test3</span>
+                    </div>
+
+                    <div class="card-picture">
+                        <img src="./assets/img/cody.jpg" alt="sample">
+                    </div>
+
+                    <div class="icon-wrapper">
+                        <div class="like-icon">
+                            <span class="lnr lnr-heart"></span>
+                        </div>
+                        <span class="hashtag">#서울시강남구</span>
+                        <span class="hashtag">#최저12최고25</span>
+                        <div class="reply-icon">
+                            <!-- <span class="lnr lnr-bubble"></span> -->
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="content-wrapper">
+                        <p><span>좋아요 598개</span>&nbsp&nbsp&nbsp<span>댓글 30개</span></p>
+
+                        <p><span class="card-account">test3</span> 일교차가 클 땐 아우터를 가볍게 걸치는 게 좋아</p>
+                        <a href="#"><p>... 더 보기</p></a>
+                    </div>
+                </section>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- 푸터 영역  -->
+    <footer>
+        <div class="inner">
+            <h2 class="ft-logo"><img src="./assets/img/navbar-logo.svg" alt="ft-logo"></h2>
+            <p class="copyright"> &#x00A9; 2024 Copyright Team Oh-nal. All Rights Reserved.</p>
+            <ul class="list">
+                <li>
+
+                    <span>Mail us, stay updated</span>
+                    <a href="mailto:" pmrang@live.co.kr><span class="lnr lnr-envelope"></span></a>
+                </li>
+
+
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        // 카드 형태의 게시물들을 감싸고 있는 부모 요소 취득
+        const $cardContainer = document.querySelector('.card-container');
+
+        
+
+
+        //========== 게시물 목록 스크립트 ============//
+
+        function removeDown(e) {
+            if (!e.target.matches('.card-container *')) return;
+            const $targetCard = e.target.closest('.card-wrapper');
+            $targetCard.removeAttribute('id', 'card-down');
+        }
+
+        function removeHover(e) {
+            if (!e.target.matches('.card-container *')) return;
+            const $targetCard = e.target.closest('.card');
+            $targetCard.classList.remove('card-hover');
+
+            const $delBtn = e.target.closest('.card-wrapper').querySelector('.del-btn');
+            if ($delBtn) $delBtn.style.opacity = '0';
+        }
+
+
+        $cardContainer.onmouseover = e => {
+
+            if (!e.target.matches('.card-container *')) return;
+
+            const $targetCard = e.target.closest('.card');
+            $targetCard.classList.add('card-hover');
+
+            const $delBtn = e.target.closest('.card-wrapper').querySelector('.del-btn');
+            if ($delBtn) $delBtn.style.opacity = '1';
+        }
+
+        $cardContainer.onmousedown = e => {
+
+            if (e.target.matches('.card-container .card-btn-group *')) return;
+
+            const $targetCard = e.target.closest('.card-wrapper');
+            $targetCard.setAttribute('id', 'card-down');
+        };
+
+        $cardContainer.onmouseup = removeDown;
+
+        $cardContainer.addEventListener('mouseout', removeDown);
+        $cardContainer.addEventListener('mouseout', removeHover);
+
+        // 더 보기 button event
+        const $addWriteBtn = document.querySelector('.add-btn');
+        if ($addWriteBtn) {
+            $addWriteBtn.onclick = e => {
+                window.location.href = '/board/list';
+            };
+        }
+
+
+  
+
+        // 검색조건 셀렉트박스 옵션타입 고정하기
+        function fixSearchOption() {
+            const $select = document.getElementById('search-type');
+            // 셀렉트 박스 내에 있는 option 태그들 전부 가져오기
+            const $options = [...$select.children];
+
+            $options.forEach($opt => {
+                if ($opt.value === '${s.type}') {
+                    // option 태그에 selected를 주면 그 option이 고정됨.
+                    $opt.setAttribute('selected', 'selected');
+                }
+            });
+
+        }
+
+        appendPageActive();
+        fixSearchOption();
+    </script>
+
+</body>
+
+</html>
